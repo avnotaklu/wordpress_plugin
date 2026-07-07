@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "cal-id/event-embed",
+  "title": "Cal ID Event Embed",
+  "category": "widgets",
+  "icon": "calendar-alt",
+  "description": "Embed hosted Cal ID event pages.",
+  "textdomain": "cal-id-event-embed",
+  "attributes": {
+    "eventPath": { "type": "string", "default": "" },
+    "layout": { "type": "string", "default": "inline" },
+    "theme": { "type": "string", "default": "auto" },
+    "brandColor": { "type": "string", "default": "" },
+    "buttonText": { "type": "string", "default": "Book now" },
+    "embedHeight": { "type": "number", "default": 600 },
+    "hideEventDetails": { "type": "boolean", "default": false },
+    "prefillEnabled": { "type": "boolean", "default": false },
+    "utmSource": { "type": "string", "default": "" },
+    "utmMedium": { "type": "string", "default": "" },
+    "utmCampaign": { "type": "string", "default": "" },
+    "utmContent": { "type": "string", "default": "" },
+    "utmTerm": { "type": "string", "default": "" }
+  },
+  "supports": {
+    "align": [ "wide", "full" ],
+    "customClassName": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js"
+}

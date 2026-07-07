@@ -56,6 +56,7 @@ class Cal_ID_Event_Embed_Plugin {
 	 * Constructor.
 	 */
 	private function __construct() {
+		require_once CAL_ID_EMBED_PLUGIN_DIR . 'includes/class-block.php';
 		add_action( 'admin_notices', array( $this, 'maybe_render_environment_notice' ) );
 
 		$this->is_supported = $this->environment_is_supported();
@@ -63,6 +64,8 @@ class Cal_ID_Event_Embed_Plugin {
 		if ( ! $this->is_supported ) {
 			return;
 		}
+
+		Cal_ID_Event_Embed_Block::init();
 	}
 
 	/**
