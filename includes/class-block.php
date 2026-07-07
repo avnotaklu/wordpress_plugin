@@ -29,8 +29,18 @@ class Cal_ID_Event_Embed_Block {
 		register_block_type(
 			CAL_ID_EMBED_PLUGIN_DIR . 'src/block',
 			array(
-				'render_callback' => '__return_empty_string',
+				'render_callback' => array( __CLASS__, 'render_block' ),
 			)
 		);
+	}
+
+	/**
+	 * Render block output.
+	 *
+	 * @param array $attributes Block attributes.
+	 * @return string
+	 */
+	public static function render_block( $attributes ) {
+		return Cal_ID_Event_Embed_Render::render( $attributes, is_admin() ? 'editor' : 'frontend' );
 	}
 }

@@ -56,6 +56,9 @@ class Cal_ID_Event_Embed_Plugin {
 	 * Constructor.
 	 */
 	private function __construct() {
+		require_once CAL_ID_EMBED_PLUGIN_DIR . 'includes/class-sanitize.php';
+		require_once CAL_ID_EMBED_PLUGIN_DIR . 'includes/class-render.php';
+		require_once CAL_ID_EMBED_PLUGIN_DIR . 'includes/class-shortcode.php';
 		require_once CAL_ID_EMBED_PLUGIN_DIR . 'includes/class-block.php';
 		add_action( 'admin_notices', array( $this, 'maybe_render_environment_notice' ) );
 
@@ -66,6 +69,7 @@ class Cal_ID_Event_Embed_Plugin {
 		}
 
 		Cal_ID_Event_Embed_Block::init();
+		Cal_ID_Event_Embed_Shortcode::init();
 	}
 
 	/**
