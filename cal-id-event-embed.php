@@ -3,7 +3,7 @@
  * Plugin Name: Cal ID Event Embed
  * Plugin URI: https://cal.id/
  * Description: Embed hosted Cal ID event pages in WordPress.
- * Version: 0.1.0
+ * Version: 1.0.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Author: Cal ID
@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'CAL_ID_EMBED_VERSION', '0.1.0' );
+define( 'CAL_ID_EMBED_VERSION', '1.0.0' );
 define( 'CAL_ID_EMBED_MINIMUM_PHP', '7.4' );
 define( 'CAL_ID_EMBED_MINIMUM_WP', '6.0' );
 define( 'CAL_ID_EMBED_PLUGIN_FILE', __FILE__ );

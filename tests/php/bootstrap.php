@@ -7,6 +7,21 @@ if ( ! defined( 'ABSPATH' ) ) {
 	define( 'ABSPATH', __DIR__ . '/../../' );
 }
 
+if ( ! isset( $GLOBALS['cal_id_test_is_user_logged_in'] ) ) {
+	$GLOBALS['cal_id_test_is_user_logged_in'] = false;
+}
+
+if ( ! isset( $GLOBALS['cal_id_test_current_user'] ) ) {
+	$GLOBALS['cal_id_test_current_user'] = (object) array(
+		'display_name' => '',
+		'user_email'   => '',
+	);
+}
+
+if ( ! isset( $GLOBALS['cal_id_test_rest_routes'] ) ) {
+	$GLOBALS['cal_id_test_rest_routes'] = array();
+}
+
 if ( ! class_exists( 'WP_Error' ) ) {
 	class WP_Error {
 		public $errors = array();
@@ -77,21 +92,24 @@ if ( ! function_exists( 'rest_url' ) ) {
 
 if ( ! function_exists( 'is_user_logged_in' ) ) {
 	function is_user_logged_in() {
-		return false;
+		return ! empty( $GLOBALS['cal_id_test_is_user_logged_in'] );
 	}
 }
 
 if ( ! function_exists( 'wp_get_current_user' ) ) {
 	function wp_get_current_user() {
-		return (object) array(
-			'display_name' => '',
-			'user_email' => '',
-		);
+		return $GLOBALS['cal_id_test_current_user'];
 	}
 }
 
 if ( ! function_exists( 'register_rest_route' ) ) {
-	function register_rest_route() {}
+	function register_rest_route( $namespace, $route, $args ) {
+		$GLOBALS['cal_id_test_rest_routes'][] = array(
+			'namespace' => $namespace,
+			'route'     => $route,
+			'args'      => $args,
+		);
+	}
 }
 
 if ( ! function_exists( 'get_block_wrapper_attributes' ) ) {
