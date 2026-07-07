@@ -1,0 +1,15 @@
+{
+  "name": "cal-id-event-embed",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "@wordpress/scripts": "^30.8.0"
+  },
+  "scripts": {
+    "build": "wp-scripts build",
+    "start": "wp-scripts start",
+    "lint:js": "wp-scripts lint-js",
+    "lint:css": "wp-scripts lint-style",
+    "test:js": "wp-scripts test-unit-js"
+  }
+}
