@@ -50,6 +50,53 @@ if ( ! function_exists( 'wp_json_encode' ) ) {
 	}
 }
 
+if ( ! function_exists( 'wp_parse_url' ) ) {
+	function wp_parse_url( $url, $component = -1 ) {
+		$url_pattern = '#^'
+			. '(?:(?P<scheme>[a-z][a-z0-9+.-]*)://)?'
+			. '(?P<host>[^/?#]*)'
+			. '(?P<path>[^?#]*)'
+			. '(?:\?(?P<query>[^#]*))?'
+			. '(?:\#(?P<fragment>.*))?'
+			. '$#i';
+
+		if ( ! preg_match( $url_pattern, (string) $url, $matches ) ) {
+			return false;
+		}
+
+		$parsed = array_filter(
+			array(
+				'scheme'   => $matches['scheme'] ?? '',
+				'host'     => $matches['host'] ?? '',
+				'path'     => $matches['path'] ?? '',
+				'query'    => $matches['query'] ?? '',
+				'fragment' => $matches['fragment'] ?? '',
+			),
+			static function ( $value ) {
+				return '' !== $value;
+			}
+		);
+
+		if ( -1 === $component ) {
+			return $parsed;
+		}
+
+		$components = array(
+			PHP_URL_SCHEME   => 'scheme',
+			PHP_URL_HOST     => 'host',
+			PHP_URL_PATH     => 'path',
+			PHP_URL_QUERY    => 'query',
+			PHP_URL_FRAGMENT => 'fragment',
+		);
+
+		if ( ! isset( $components[ $component ], $parsed[ $components[ $component ] ] ) ) {
+			return null;
+		}
+
+		return $parsed[ $components[ $component ] ];
+	}
+}
+
 if ( ! function_exists( 'wp_generate_uuid4' ) ) {
 	function wp_generate_uuid4() {
 		return '00000000-0000-4000-8000-000000000000';
@@ -124,7 +171,8 @@ if ( ! function_exists( 'get_block_wrapper_attributes' ) ) {
 
 if ( ! function_exists( 'wp_strip_all_tags' ) ) {
 	function wp_strip_all_tags( $text ) {
-		return strip_tags( $text );
+		$text = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', (string) $text );
+		return preg_replace( '/<[^>]*>/', '', $text );
 	}
 }
 

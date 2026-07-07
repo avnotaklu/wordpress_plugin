@@ -7,7 +7,8 @@ const { execFileSync } = require( 'child_process' );
 
 const rootDir = path.resolve( __dirname, '..' );
 const packageName = 'cal-id-embed';
-const stagingDir = path.join( os.tmpdir(), `${ packageName }-release` );
+const stagingRoot = path.join( os.tmpdir(), `${ packageName }-release` );
+const stagingDir = path.join( stagingRoot, packageName );
 const zipPath = path.join( rootDir, `${ packageName }.zip` );
 const shouldZip = process.argv.includes( '--zip' );
 
@@ -19,8 +20,6 @@ const includeFiles = [
 	'package.json',
 	'phpcs.xml',
 	'phpunit.xml',
-	'.wp-env.json',
-	'.gitignore',
 ];
 
 const includeDirs = [ 'build', 'includes', 'src', 'languages' ];
@@ -37,6 +36,10 @@ const excludeNames = new Set( [
 	'.wp-env',
 ] );
 
+function shouldExclude( entry ) {
+	return entry.startsWith( '.' ) || excludeNames.has( entry );
+}
+
 function removePath( target ) {
 	fs.rmSync( target, { recursive: true, force: true } );
 }
@@ -47,7 +50,7 @@ function copyItem( source, destination ) {
 	if ( stat.isDirectory() ) {
 		fs.mkdirSync( destination, { recursive: true } );
 		for ( const entry of fs.readdirSync( source ) ) {
-			if ( excludeNames.has( entry ) ) {
+			if ( shouldExclude( entry ) ) {
 				continue;
 			}
 
@@ -62,7 +65,7 @@ function copyItem( source, destination ) {
 	fs.copyFileSync( source, destination );
 }
 
-removePath( stagingDir );
+removePath( stagingRoot );
 fs.mkdirSync( stagingDir, { recursive: true } );
 
 for ( const file of includeFiles ) {
@@ -82,7 +85,7 @@ for ( const dir of includeDirs ) {
 if ( shouldZip ) {
 	removePath( zipPath );
 	execFileSync( 'zip', [ '-r', zipPath, packageName ], {
-		cwd: path.dirname( stagingDir ),
+		cwd: stagingRoot,
 		stdio: 'inherit',
 	} );
 }

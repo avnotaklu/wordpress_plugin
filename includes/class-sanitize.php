@@ -25,7 +25,7 @@ class Cal_ID_Embed_Sanitize {
 		}
 
 		if ( preg_match( '#^[a-z][a-z0-9+.-]*://#i', $raw ) ) {
-			$parsed = function_exists( 'wp_parse_url' ) ? wp_parse_url( $raw ) : parse_url( $raw );
+			$parsed = wp_parse_url( $raw );
 
 			if ( empty( $parsed['scheme'] ) || 'https' !== strtolower( (string) $parsed['scheme'] ) ) {
 				return new WP_Error( 'cal_id_event_path_invalid_scheme', 'Only https URLs are allowed.' );
