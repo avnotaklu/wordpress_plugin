@@ -1,30 +1,4 @@
-import { buildCalLink, buildRuntimeConfig } from '../shared/cal-embed';
-
-const CAL_STUB_SRC = 'https://cal.id/embed-link/embed.js';
-
-function loadCalStub() {
-	return new Promise( ( resolve, reject ) => {
-		if ( window.Cal ) {
-			resolve( window.Cal );
-			return;
-		}
-
-		const existing = document.querySelector( 'script[data-cal-embed-stub]' );
-		if ( existing ) {
-			existing.addEventListener( 'load', () => resolve( window.Cal ) );
-			existing.addEventListener( 'error', reject );
-			return;
-		}
-
-		const script = document.createElement( 'script' );
-		script.src = CAL_STUB_SRC;
-		script.async = true;
-		script.dataset.calEmbedStub = '1';
-		script.addEventListener( 'load', () => resolve( window.Cal ) );
-		script.addEventListener( 'error', reject );
-		document.head.appendChild( script );
-	} );
-}
+import { buildCalLink, buildRuntimeConfig, injectCalStub } from '../shared/cal-embed';
 
 async function initInstance( root ) {
 	const configScript = root.querySelector( '.cal-id-event-embed__config' );
@@ -48,7 +22,7 @@ async function initInstance( root ) {
 		return;
 	}
 
-	const Cal = await loadCalStub();
+	const Cal = injectCalStub();
 	Cal( 'init', instanceId, { origin: 'https://cal.id' } );
 
 	const runtimeConfig = buildRuntimeConfig( config );

@@ -3,7 +3,7 @@ import {
 	InspectorControls,
 	useBlockProps,
 } from '@wordpress/block-editor';
-import { useState } from '@wordpress/element';
+import { useEffect, useRef, useState } from '@wordpress/element';
 import {
 	PanelBody,
 	TextControl,
@@ -12,6 +12,7 @@ import {
 	ToggleControl,
 	Notice,
 } from '@wordpress/components';
+import { buildCalLink, injectCalStub } from '../shared/cal-embed';
 
 const allowedLayouts = [
 	{ label: 'Inline', value: 'inline' },
@@ -25,23 +26,78 @@ const allowedThemes = [
 	{ label: 'Dark', value: 'dark' },
 ];
 
+function normalizePreviewEventPath( eventPath ) {
+	const value = String( eventPath || '' ).trim();
+	const match = value.match( /^https:\/\/cal\.id\/([^?#]+)$/i );
+
+	return ( match ? match[ 1 ] : value ).replace( /^\/+/, '' );
+}
+
+function LivePreview( { attributes } ) {
+	const containerRef = useRef( null );
+	const instanceIdRef = useRef( `cal-id-event-embed-preview-${ Math.random().toString( 36 ).slice( 2 ) }` );
+	const eventPath = normalizePreviewEventPath( attributes.eventPath );
+
+	useEffect( () => {
+		const container = containerRef.current;
+		if ( ! container || ! eventPath ) {
+			return;
+		}
+
+		container.innerHTML = '';
+		container.id = container.id || `${ instanceIdRef.current }-container`;
+
+		const Cal = injectCalStub();
+		Cal( 'init', instanceIdRef.current, { origin: 'https://cal.id' } );
+		Cal.ns[ instanceIdRef.current ]( 'ui', {
+			cssVarsPerTheme: {
+				light: { 'cal-brand': attributes.brandColor || '' },
+				dark: { 'cal-brand': attributes.brandColor || '' },
+			},
+			hideEventTypeDetails: !! attributes.hideEventDetails,
+			layout: 'month_view',
+		} );
+		Cal.ns[ instanceIdRef.current ]( 'inline', {
+			elementOrSelector: `#${ container.id }`,
+			calLink: buildCalLink( eventPath, attributes ),
+			config: { layout: 'month_view' },
+		} );
+
+		return () => {
+			container.innerHTML = '';
+		};
+	}, [
+		attributes.brandColor,
+		attributes.hideEventDetails,
+		attributes.utmCampaign,
+		attributes.utmContent,
+		attributes.utmMedium,
+		attributes.utmSource,
+		attributes.utmTerm,
+		eventPath,
+	] );
+
+	return (
+		<div className="cal-id-event-embed__preview-frame">
+			<div
+				ref={ containerRef }
+				className="cal-id-event-embed__preview-body"
+				style={ { minHeight: `${ attributes.embedHeight || 600 }px` } }
+			/>
+		</div>
+	);
+}
+
 export default function Edit( { attributes, setAttributes } ) {
 	const [ showLivePreview, setShowLivePreview ] = useState( false );
 	const blockProps = useBlockProps( {
 		className: `layout-${ attributes.layout || 'inline' } theme-${ attributes.theme || 'auto' }`,
 	} );
 
-	const showPreview = attributes.layout === 'inline' && showLivePreview;
+	const showPreview = attributes.layout === 'inline' && showLivePreview && attributes.eventPath && ! attributes.eventPath.includes( 'javascript:' );
 
 	const preview = showPreview ? (
-		<div className="cal-id-event-embed__preview-frame">
-			<div className="cal-id-event-embed__preview-header">
-				{ __( 'Live preview placeholder', 'cal-id-event-embed' ) }
-			</div>
-			<div className="cal-id-event-embed__preview-body">
-				{ attributes.eventPath ? attributes.eventPath : __( 'Enter an event path to preview.', 'cal-id-event-embed' ) }
-			</div>
-		</div>
+		<LivePreview attributes={ attributes } />
 	) : (
 		<div className="cal-id-event-embed__placeholder">
 			{ attributes.eventPath ? __( 'Block configured. Preview will be rendered on the frontend.', 'cal-id-event-embed' ) : __( 'Enter an event path to preview.', 'cal-id-event-embed' ) }
