@@ -1,0 +1,28 @@
+# Dependencies
+/node_modules/
+/vendor/
+
+# Build output
+/build/
+/dist/
+
+# WordPress / local dev
+/.wp-env/
+/.wp-env.json.local
+
+# Logs and coverage
+/npm-debug.log*
+/yarn-debug.log*
+/yarn-error.log*
+/phpunit.xml.coverage
+/coverage/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
+
+# Composer / npm lockfiles are intentionally tracked if present

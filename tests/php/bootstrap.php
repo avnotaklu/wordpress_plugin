@@ -60,13 +60,38 @@ if ( ! function_exists( 'esc_attr' ) ) {
 }
 
 if ( ! function_exists( 'shortcode_atts' ) ) {
-	function shortcode_atts( $pairs, $atts ) {
+	function shortcode_atts( $pairs, $atts, $shortcode = '' ) {
 		return array_merge( $pairs, $atts );
 	}
 }
 
 if ( ! function_exists( 'add_shortcode' ) ) {
 	function add_shortcode() {}
+}
+
+if ( ! function_exists( 'rest_url' ) ) {
+	function rest_url( $path = '' ) {
+		return 'https://example.test/wp-json/' . ltrim( $path, '/' );
+	}
+}
+
+if ( ! function_exists( 'is_user_logged_in' ) ) {
+	function is_user_logged_in() {
+		return false;
+	}
+}
+
+if ( ! function_exists( 'wp_get_current_user' ) ) {
+	function wp_get_current_user() {
+		return (object) array(
+			'display_name' => '',
+			'user_email' => '',
+		);
+	}
+}
+
+if ( ! function_exists( 'register_rest_route' ) ) {
+	function register_rest_route() {}
 }
 
 if ( ! function_exists( 'get_block_wrapper_attributes' ) ) {

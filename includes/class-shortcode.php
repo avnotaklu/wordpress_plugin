@@ -45,23 +45,37 @@ class Cal_ID_Event_Embed_Shortcode {
 
 		$atts = shortcode_atts( $defaults, $atts, 'cal_id_event_embed' );
 
-		return Cal_ID_Event_Embed_Render::render(
-			array(
-				'eventPath' => $atts['event_path'],
-				'layout' => $atts['layout'],
-				'theme' => $atts['theme'],
-				'brandColor' => $atts['brand_color'],
-				'buttonText' => $atts['button_text'],
-				'embedHeight' => $atts['embed_height'],
-				'hideEventDetails' => $atts['hide_event_details'],
-				'prefillEnabled' => $atts['prefill_enabled'],
-				'utmSource' => $atts['utm_source'],
-				'utmMedium' => $atts['utm_medium'],
-				'utmCampaign' => $atts['utm_campaign'],
-				'utmContent' => $atts['utm_content'],
-				'utmTerm' => $atts['utm_term'],
-			),
-			'frontend'
+		return Cal_ID_Event_Embed_Render::render( self::normalize_atts( $atts ), 'frontend' );
+	}
+
+	/**
+	 * Normalize shortcode keys to canonical attribute names.
+	 *
+	 * @param array $atts Shortcode attrs.
+	 * @return array
+	 */
+	private static function normalize_atts( $atts ) {
+		$map = array(
+			'eventpath' => 'eventPath',
+			'layout' => 'layout',
+			'theme' => 'theme',
+			'brandcolor' => 'brandColor',
+			'buttontext' => 'buttonText',
+			'embedheight' => 'embedHeight',
+			'hideeventdetails' => 'hideEventDetails',
+			'prefillenabled' => 'prefillEnabled',
+			'utmsource' => 'utmSource',
+			'utmmedium' => 'utmMedium',
+			'utmcampaign' => 'utmCampaign',
+			'utmcontent' => 'utmContent',
+			'utmterm' => 'utmTerm',
 		);
+
+		$normalized = array();
+		foreach ( $atts as $key => $value ) {
+			$normalized[ $map[ strtolower( $key ) ] ?? $key ] = $value;
+		}
+
+		return $normalized;
 	}
 }

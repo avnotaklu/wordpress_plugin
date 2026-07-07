@@ -1,1 +1,1 @@
-/* Placeholder for future frontend runtime wiring. */
+import '../frontend/embed-runtime';

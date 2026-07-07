@@ -26,8 +26,14 @@ class Cal_ID_Event_Embed_Block {
 	 * @return void
 	 */
 	public static function register_block() {
+		$block_path = CAL_ID_EMBED_PLUGIN_DIR . 'build/block';
+
+		if ( ! file_exists( $block_path . '/block.json' ) ) {
+			$block_path = CAL_ID_EMBED_PLUGIN_DIR . 'src/block';
+		}
+
 		register_block_type(
-			CAL_ID_EMBED_PLUGIN_DIR . 'src/block',
+			$block_path,
 			array(
 				'render_callback' => array( __CLASS__, 'render_block' ),
 			)

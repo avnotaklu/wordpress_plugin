@@ -24,6 +24,8 @@ class Cal_ID_Event_Embed_Render {
 		$is_editor = 'editor' === $context;
 		$is_valid_path = ! is_wp_error( $sanitized['event_path'] );
 
+		self::enqueue_frontend_assets();
+
 		$classes = array(
 			'cal-id-event-embed',
 			'layout-' . $sanitized['layout'],
@@ -115,6 +117,7 @@ class Cal_ID_Event_Embed_Render {
 			'utmCampaign' => $sanitized['utmCampaign'],
 			'utmContent' => $sanitized['utmContent'],
 			'utmTerm' => $sanitized['utmTerm'],
+			'prefillEndpoint' => rest_url( 'cal-id-embed/v1/prefill' ),
 		);
 	}
 
@@ -160,5 +163,33 @@ class Cal_ID_Event_Embed_Render {
 	 */
 	private static function generate_instance_id() {
 		return 'cal-id-event-embed-' . wp_generate_uuid4();
+	}
+
+	/**
+	 * Enqueue frontend assets when rendering outside the block editor.
+	 *
+	 * @return void
+	 */
+	private static function enqueue_frontend_assets() {
+		$asset_file = CAL_ID_EMBED_PLUGIN_DIR . 'build/block/view.asset.php';
+		$script_url = CAL_ID_EMBED_PLUGIN_URL . 'build/block/view.js';
+
+		if ( ! file_exists( $asset_file ) ) {
+			$asset_file = CAL_ID_EMBED_PLUGIN_DIR . 'src/block/view.asset.php';
+			$script_url = CAL_ID_EMBED_PLUGIN_URL . 'src/block/view.js';
+		}
+
+		$asset = file_exists( $asset_file ) ? require $asset_file : array(
+			'dependencies' => array(),
+			'version' => CAL_ID_EMBED_VERSION,
+		);
+
+		wp_enqueue_script(
+			'cal-id-event-embed-view',
+			$script_url,
+			$asset['dependencies'],
+			$asset['version'],
+			true
+		);
 	}
 }
