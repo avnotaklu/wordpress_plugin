@@ -91,5 +91,6 @@ class RenderTest extends TestCase {
 
 		$this->assertStringContainsString( 'cal-id-embed__config', $shortcode );
 		$this->assertStringContainsString( 'cal-id-embed__config', $rendered );
+		$this->assertStringContainsString( '"eventPath":"owner\/event"', $shortcode );
 	}
 }

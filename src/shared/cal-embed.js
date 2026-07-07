@@ -62,13 +62,28 @@ export function injectCalStub() {
 }
 
 export function buildRuntimeConfig( config ) {
+	const brandColor = normalizeBrandColor( config.brandColor );
+	const cssVarsPerTheme = {};
+
+	if ( brandColor ) {
+		cssVarsPerTheme.light = { 'cal-brand': brandColor };
+		cssVarsPerTheme.dark = { 'cal-brand': brandColor };
+	}
+
 	return {
 		calLink: buildCalLink( config.eventPath, config ),
 		buttonText: config.buttonText || 'Book now',
-		buttonColor: config.brandColor || '',
+		buttonColor: brandColor,
 		buttonTextColor: '',
 		hideEventDetails: !! config.hideEventDetails,
 		prefillEnabled: !! config.prefillEnabled,
+		prefillEndpoint: config.prefillEndpoint || '',
 		layout: 'month_view',
+		cssVarsPerTheme,
 	};
+}
+
+export function normalizeBrandColor( brandColor ) {
+	const value = String( brandColor || '' ).trim();
+	return value ? value : undefined;
 }

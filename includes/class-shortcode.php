@@ -56,18 +56,29 @@ class Cal_ID_Embed_Shortcode {
 	 */
 	private static function normalize_atts( $atts ) {
 		$map = array(
+			'event_path' => 'eventPath',
 			'eventpath' => 'eventPath',
 			'layout' => 'layout',
 			'theme' => 'theme',
+			'brand_color' => 'brandColor',
 			'brandcolor' => 'brandColor',
+			'button_text' => 'buttonText',
 			'buttontext' => 'buttonText',
+			'embed_height' => 'embedHeight',
 			'embedheight' => 'embedHeight',
+			'hide_event_details' => 'hideEventDetails',
 			'hideeventdetails' => 'hideEventDetails',
+			'prefill_enabled' => 'prefillEnabled',
 			'prefillenabled' => 'prefillEnabled',
+			'utm_source' => 'utmSource',
 			'utmsource' => 'utmSource',
+			'utm_medium' => 'utmMedium',
 			'utmmedium' => 'utmMedium',
+			'utm_campaign' => 'utmCampaign',
 			'utmcampaign' => 'utmCampaign',
+			'utm_content' => 'utmContent',
 			'utmcontent' => 'utmContent',
+			'utm_term' => 'utmTerm',
 			'utmterm' => 'utmTerm',
 		);
 
