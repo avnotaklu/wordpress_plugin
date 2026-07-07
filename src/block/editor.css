@@ -1,1 +1,41 @@
-/* Editor styles are intentionally minimal in phase 2. */
+.cal-id-event-embed__static-preview {
+	box-sizing: border-box;
+	border: 1px dotted #98a2b3;
+	border-radius: 8px;
+	padding: 14px;
+	background: #f9fafb;
+	color: #344054;
+	text-align: center;
+}
+
+.cal-id-event-embed__static-preview-content {
+	max-width: 440px;
+	margin: 0 auto;
+}
+
+.cal-id-event-embed__static-preview-title {
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.4;
+	margin-bottom: 2px;
+}
+
+.cal-id-event-embed__static-preview-copy {
+	font-size: 11px;
+	line-height: 1.5;
+	color: #667085;
+}
+
+.cal-id-event-embed__static-preview--inline {
+	min-height: 180px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.cal-id-event-embed__static-preview--floating {
+	min-height: 180px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}

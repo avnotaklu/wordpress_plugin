@@ -34,12 +34,15 @@ async function initInstance( root ) {
 			dark: { 'cal-brand': config.brandColor || '' },
 		},
 		hideEventTypeDetails: !! config.hideEventDetails,
+		theme: config.theme,
 		layout: 'month_view',
 	} );
 
 	if ( config.layout === 'inline' && container ) {
+		container.id = container.id || `${ instanceId }-container`;
+
 		Cal.ns[ instanceId ]( 'inline', {
-			elementOrSelector: `#${ container.id || root.id }`,
+			elementOrSelector: `#${ container.id }`,
 			calLink,
 			config: { layout: 'month_view' },
 		} );

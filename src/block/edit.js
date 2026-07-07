@@ -54,6 +54,8 @@ function LivePreview( { attributes } ) {
 				light: { 'cal-brand': attributes.brandColor || '' },
 				dark: { 'cal-brand': attributes.brandColor || '' },
 			},
+
+			theme: attributes.theme,
 			hideEventTypeDetails: !! attributes.hideEventDetails,
 			layout: 'month_view',
 		} );
@@ -68,7 +70,10 @@ function LivePreview( { attributes } ) {
 		};
 	}, [
 		attributes.brandColor,
+		attributes.embedHeight,
 		attributes.hideEventDetails,
+		attributes.layout,
+		attributes.theme,
 		attributes.utmCampaign,
 		attributes.utmContent,
 		attributes.utmMedium,
@@ -78,12 +83,52 @@ function LivePreview( { attributes } ) {
 	] );
 
 	return (
-		<div className="cal-id-event-embed__preview-frame">
+		<div className="cal-id-event-embed__preview-frame cal-id-event-embed__preview-frame--live">
 			<div
 				ref={ containerRef }
 				className="cal-id-event-embed__preview-body"
 				style={ { minHeight: `${ attributes.embedHeight || 600 }px` } }
 			/>
+			<div className="cal-id-event-embed__preview-shield" aria-hidden="true" />
+		</div>
+	);
+}
+
+function StaticPreview( { attributes } ) {
+	if ( attributes.layout === 'modal' ) {
+		return (
+			<button type="button" className="cal-id-event-embed__trigger">
+				{ attributes.buttonText ||
+					__( 'Book now', 'cal-id-event-embed' ) }
+			</button>
+		);
+	}
+
+	if ( attributes.layout === 'floating' ) {
+		return (
+			<div
+				className="cal-id-event-embed__static-preview cal-id-event-embed__static-preview--floating"
+			>
+				<div className="cal-id-event-embed__static-preview-content">
+					{ __(
+						'Floating button is displayed at bottom',
+						'cal-id-event-embed'
+					) }
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div
+			className="cal-id-event-embed__static-preview cal-id-event-embed__static-preview--inline"
+		>
+			<div className="cal-id-event-embed__static-preview-content">
+				{ __(
+					'Cal ID embed — visible on the published page',
+					'cal-id-event-embed'
+				) }
+			</div>
 		</div>
 	);
 }
@@ -91,18 +136,46 @@ function LivePreview( { attributes } ) {
 export default function Edit( { attributes, setAttributes } ) {
 	const [ showLivePreview, setShowLivePreview ] = useState( false );
 	const blockProps = useBlockProps( {
-		className: `layout-${ attributes.layout || 'inline' } theme-${ attributes.theme || 'auto' }`,
+		className: `layout-${ attributes.layout || 'inline' } theme-${
+			attributes.theme || 'auto'
+		}`,
 	} );
 
-	const showPreview = attributes.layout === 'inline' && showLivePreview && attributes.eventPath && ! attributes.eventPath.includes( 'javascript:' );
+	const hasValidPreviewPath =
+		attributes.eventPath &&
+		! attributes.eventPath.includes( 'javascript:' );
+	const showPreview =
+		attributes.layout === 'inline' &&
+		showLivePreview &&
+		hasValidPreviewPath;
 
-	const preview = showPreview ? (
-		<LivePreview attributes={ attributes } />
-	) : (
-		<div className="cal-id-event-embed__placeholder">
-			{ attributes.eventPath ? __( 'Block configured. Preview will be rendered on the frontend.', 'cal-id-event-embed' ) : __( 'Enter an event path to preview.', 'cal-id-event-embed' ) }
-		</div>
-	);
+	useEffect( () => {
+		if ( attributes.layout !== 'inline' && showLivePreview ) {
+			setShowLivePreview( false );
+		}
+	}, [ attributes.layout, showLivePreview ] );
+
+	let preview;
+
+	if ( showPreview ) {
+		preview = <LivePreview attributes={ attributes } />;
+	} else if ( hasValidPreviewPath ) {
+		preview = <StaticPreview attributes={ attributes } />;
+	} else {
+		preview = (
+			<div className="cal-id-event-embed__placeholder">
+				{ attributes.eventPath
+					? __(
+							'Block configured. Preview will be rendered on the frontend.',
+							'cal-id-event-embed'
+					  )
+					: __(
+							'Enter an event path to preview.',
+							'cal-id-event-embed'
+					  ) }
+			</div>
+		);
+	}
 
 	return (
 		<>
@@ -185,6 +258,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						disabled={ attributes.layout !== 'inline' }
 						onChange={ setShowLivePreview }
 					/>
+					{ attributes.layout !== 'inline' ? (
+						<div className="cal-id-event-embed__preview-help">
+							{ __(
+								'Live preview is only available for inline embeds.',
+								'cal-id-event-embed'
+							) }
+						</div>
+					) : null }
 				</PanelBody>
 			</InspectorControls>
 
