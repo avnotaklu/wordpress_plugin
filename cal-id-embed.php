@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Cal ID Event Embed
+ * Plugin Name: Cal ID Embed
  * Plugin URI: https://cal.id/
  * Description: Embed hosted Cal ID event pages in WordPress.
  * Version: 1.0.0
@@ -9,9 +9,9 @@
  * Author: Cal ID
  * License: GPL-2.0-or-later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: cal-id-event-embed
+ * Text Domain: cal-id-embed
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -27,6 +27,6 @@ define( 'CAL_ID_EMBED_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 require_once CAL_ID_EMBED_PLUGIN_DIR . 'includes/class-plugin.php';
 
-register_activation_hook( __FILE__, array( 'Cal_ID_Event_Embed_Plugin', 'activate' ) );
+register_activation_hook( __FILE__, array( 'Cal_ID_Embed_Plugin', 'activate' ) );
 
-Cal_ID_Event_Embed_Plugin::instance();
+Cal_ID_Embed_Plugin::instance();

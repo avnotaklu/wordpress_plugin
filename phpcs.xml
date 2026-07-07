@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="Cal ID Event Embed">
-	<description>WordPress coding standards for Cal ID Event Embed.</description>
+<ruleset name="Cal ID Embed">
+	<description>WordPress coding standards for Cal ID Embed.</description>
 
 	<file>.</file>
 

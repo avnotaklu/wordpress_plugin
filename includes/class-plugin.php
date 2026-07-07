@@ -2,14 +2,14 @@
 /**
  * Plugin bootstrap and environment checks.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cal_ID_Event_Embed_Plugin {
+class Cal_ID_Embed_Plugin {
 
 	/** @var self|null */
 	private static $instance = null;
@@ -41,7 +41,7 @@ class Cal_ID_Event_Embed_Plugin {
 
 		if ( ! $php_ok || ! $wp_ok ) {
 			set_transient(
-				'cal_id_event_embed_activation_error',
+				'cal_id_embed_activation_error',
 				array(
 					'php_ok' => $php_ok,
 					'wp_ok'  => $wp_ok,
@@ -69,9 +69,9 @@ class Cal_ID_Event_Embed_Plugin {
 			return;
 		}
 
-		Cal_ID_Event_Embed_Block::init();
-		Cal_ID_Event_Embed_Rest_Prefill::init();
-		Cal_ID_Event_Embed_Shortcode::init();
+		Cal_ID_Embed_Block::init();
+		Cal_ID_Embed_Rest_Prefill::init();
+		Cal_ID_Embed_Shortcode::init();
 	}
 
 	/**
@@ -89,20 +89,20 @@ class Cal_ID_Event_Embed_Plugin {
 	 * @return void
 	 */
 	public function maybe_render_environment_notice() {
-		$activation_error = get_transient( 'cal_id_event_embed_activation_error' );
+		$activation_error = get_transient( 'cal_id_embed_activation_error' );
 
 		if ( false === $activation_error && $this->is_supported ) {
 			return;
 		}
 
-		delete_transient( 'cal_id_event_embed_activation_error' );
+		delete_transient( 'cal_id_embed_activation_error' );
 
 		$messages = array();
 
 		if ( isset( $activation_error['php_ok'] ) && ! $activation_error['php_ok'] ) {
 			$messages[] = sprintf(
 				/* translators: %s: minimum PHP version. */
-				esc_html__( 'Cal ID Event Embed requires PHP %s or later.', 'cal-id-event-embed' ),
+				esc_html__( 'Cal ID Embed requires PHP %s or later.', 'cal-id-embed' ),
 				esc_html( CAL_ID_EMBED_MINIMUM_PHP )
 			);
 		}
@@ -110,7 +110,7 @@ class Cal_ID_Event_Embed_Plugin {
 		if ( isset( $activation_error['wp_ok'] ) && ! $activation_error['wp_ok'] ) {
 			$messages[] = sprintf(
 				/* translators: %s: minimum WordPress version. */
-				esc_html__( 'Cal ID Event Embed requires WordPress %s or later.', 'cal-id-event-embed' ),
+				esc_html__( 'Cal ID Embed requires WordPress %s or later.', 'cal-id-embed' ),
 				esc_html( CAL_ID_EMBED_MINIMUM_WP )
 			);
 		}

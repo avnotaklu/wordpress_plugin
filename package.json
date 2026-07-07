@@ -1,5 +1,5 @@
 {
-  "name": "cal-id-event-embed",
+  "name": "cal-id-embed",
   "version": "1.0.0",
   "private": true,
   "devDependencies": {
@@ -7,6 +7,8 @@
   },
   "scripts": {
     "build": "wp-scripts build",
+    "package": "node scripts/package.js",
+    "package:zip": "node scripts/package.js --zip",
     "start": "wp-scripts start",
     "lint:js": "wp-scripts lint-js",
     "lint:css": "wp-scripts lint-style",

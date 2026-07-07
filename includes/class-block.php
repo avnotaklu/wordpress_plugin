@@ -2,14 +2,14 @@
 /**
  * Block registration.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cal_ID_Event_Embed_Block {
+class Cal_ID_Embed_Block {
 
 	/**
 	 * Boot the block integration.
@@ -47,6 +47,6 @@ class Cal_ID_Event_Embed_Block {
 	 * @return string
 	 */
 	public static function render_block( $attributes ) {
-		return Cal_ID_Event_Embed_Render::render( $attributes, is_admin() ? 'editor' : 'frontend' );
+		return Cal_ID_Embed_Render::render( $attributes, is_admin() ? 'editor' : 'frontend' );
 	}
 }

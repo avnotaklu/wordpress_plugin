@@ -1,17 +1,17 @@
-.wp-block-cal-id-event-embed,
-.cal-id-event-embed {
+.wp-block-cal-id-embed,
+.cal-id-embed {
 	box-sizing: border-box;
 }
 
-.cal-id-event-embed__placeholder,
-.cal-id-event-embed__preview-frame {
+.cal-id-embed__placeholder,
+.cal-id-embed__preview-frame {
 	border: 1px solid #d0d5dd;
 	border-radius: 12px;
 	padding: 16px;
 	background: #fff;
 }
 
-.cal-id-event-embed__trigger {
+.cal-id-embed__trigger {
 	appearance: none;
 	border: 0;
 	border-radius: 999px;
@@ -29,13 +29,13 @@
 		filter 140ms ease;
 }
 
-.cal-id-event-embed__trigger:hover {
+.cal-id-embed__trigger:hover {
 	transform: translateY(-1px);
 	box-shadow: 0 12px 28px rgba(37, 99, 235, 0.22);
 	filter: brightness(1.03);
 }
 
-.cal-id-event-embed__trigger:focus-visible {
+.cal-id-embed__trigger:focus-visible {
 	outline: 3px solid rgba(37, 99, 235, 0.28);
 	outline-offset: 3px;
 }

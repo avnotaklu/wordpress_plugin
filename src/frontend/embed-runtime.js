@@ -1,7 +1,11 @@
-import { buildCalLink, buildRuntimeConfig, injectCalStub } from '../shared/cal-embed';
+import {
+	buildCalLink,
+	buildRuntimeConfig,
+	injectCalStub,
+} from '../shared/cal-embed';
 
 async function initInstance( root ) {
-	const configScript = root.querySelector( '.cal-id-event-embed__config' );
+	const configScript = root.querySelector( '.cal-id-embed__config' );
 	if ( ! configScript ) {
 		return;
 	}
@@ -10,13 +14,11 @@ async function initInstance( root ) {
 	try {
 		config = JSON.parse( configScript.textContent || '{}' );
 	} catch ( error ) {
-		root.classList.add( 'cal-id-event-embed--error' );
+		root.classList.add( 'cal-id-embed--error' );
 		return;
 	}
 
 	const instanceId = root.dataset.instanceId;
-	const container = root.querySelector( '.cal-id-event-embed__container' );
-	const trigger = root.querySelector( '.cal-id-event-embed__trigger' );
 
 	if ( ! instanceId || ! config.eventPath ) {
 		return;
@@ -24,9 +26,6 @@ async function initInstance( root ) {
 
 	const Cal = injectCalStub();
 	Cal( 'init', instanceId, { origin: 'https://cal.id' } );
-
-	const runtimeConfig = buildRuntimeConfig( config );
-	const calLink = buildCalLink( config.eventPath, config );
 
 	Cal.ns[ instanceId ]( 'ui', {
 		cssVarsPerTheme: {
@@ -38,6 +37,9 @@ async function initInstance( root ) {
 		layout: 'month_view',
 	} );
 
+	const calLink = buildCalLink( config.eventPath, config );
+
+	const container = root.querySelector( '.cal-id-embed__container' );
 	if ( config.layout === 'inline' && container ) {
 		container.id = container.id || `${ instanceId }-container`;
 
@@ -49,10 +51,13 @@ async function initInstance( root ) {
 		return;
 	}
 
+	const trigger = root.querySelector( '.cal-id-embed__trigger' );
 	if ( config.layout === 'modal' && trigger ) {
 		trigger.dataset.calLink = calLink;
 		trigger.dataset.calNamespace = instanceId;
-		trigger.dataset.calConfig = JSON.stringify( runtimeConfig );
+		trigger.dataset.calConfig = JSON.stringify(
+			buildRuntimeConfig( config )
+		);
 		return;
 	}
 
@@ -71,9 +76,11 @@ async function initInstance( root ) {
 }
 
 document.addEventListener( 'DOMContentLoaded', () => {
-	document.querySelectorAll( '.cal-id-event-embed[data-instance-id]' ).forEach( ( root ) => {
-		initInstance( root ).catch( () => {
-			root.classList.add( 'cal-id-event-embed--error' );
+	document
+		.querySelectorAll( '.cal-id-embed[data-instance-id]' )
+		.forEach( ( root ) => {
+			initInstance( root ).catch( () => {
+				root.classList.add( 'cal-id-embed--error' );
+			} );
 		} );
-	} );
 } );

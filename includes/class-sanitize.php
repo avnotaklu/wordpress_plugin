@@ -2,14 +2,14 @@
 /**
  * Sanitization helpers.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cal_ID_Event_Embed_Sanitize {
+class Cal_ID_Embed_Sanitize {
 
 	/**
 	 * Normalize an event path to owner/event or team/owner/event.

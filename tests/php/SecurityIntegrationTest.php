@@ -14,7 +14,7 @@ class SecurityIntegrationTest extends TestCase {
 	}
 
 	public function test_hostile_brand_color_is_neutralized_in_render(): void {
-		$html = Cal_ID_Event_Embed_Render::render(
+		$html = Cal_ID_Embed_Render::render(
 			array(
 				'eventPath'   => 'owner/event',
 				'brandColor'  => 'url(javascript:alert(1))',
@@ -30,7 +30,7 @@ class SecurityIntegrationTest extends TestCase {
 	}
 
 	public function test_hostile_shortcode_attributes_are_sanitized(): void {
-		$html = Cal_ID_Event_Embed_Shortcode::render_shortcode(
+		$html = Cal_ID_Embed_Shortcode::render_shortcode(
 			array(
 				'eventpath'   => 'https://cal.id/owner/event?bad=<script>',
 				'brandcolor'  => 'expression(alert(1))',
@@ -45,7 +45,7 @@ class SecurityIntegrationTest extends TestCase {
 	}
 
 	public function test_config_json_remains_inert(): void {
-		$html = Cal_ID_Event_Embed_Render::render(
+		$html = Cal_ID_Embed_Render::render(
 			array(
 				'eventPath'  => 'owner/event',
 				'buttonText' => '</script><script>alert(1)</script>',
@@ -59,13 +59,13 @@ class SecurityIntegrationTest extends TestCase {
 	}
 
 	public function test_rest_route_is_registered_and_unauthorized_access_is_rejected(): void {
-		Cal_ID_Event_Embed_Rest_Prefill::register_routes();
+		Cal_ID_Embed_Rest_Prefill::register_routes();
 
 		$this->assertNotEmpty( $GLOBALS['cal_id_test_rest_routes'] );
 		$this->assertSame( 'cal-id-embed/v1', $GLOBALS['cal_id_test_rest_routes'][0]['namespace'] );
 		$this->assertSame( '/prefill', $GLOBALS['cal_id_test_rest_routes'][0]['route'] );
 
-		$permission = Cal_ID_Event_Embed_Rest_Prefill::permissions_check();
+		$permission = Cal_ID_Embed_Rest_Prefill::permissions_check();
 		$this->assertInstanceOf( WP_Error::class, $permission );
 	}
 
@@ -78,7 +78,7 @@ class SecurityIntegrationTest extends TestCase {
 			'roles'        => array( 'subscriber' ),
 		);
 
-		$payload = Cal_ID_Event_Embed_Rest_Prefill::handle_request();
+		$payload = Cal_ID_Embed_Rest_Prefill::handle_request();
 
 		$this->assertSame(
 			array(

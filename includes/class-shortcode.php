@@ -2,14 +2,14 @@
 /**
  * Shortcode registration.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cal_ID_Event_Embed_Shortcode {
+class Cal_ID_Embed_Shortcode {
 
 	/**
 	 * Boot shortcode.
@@ -17,7 +17,7 @@ class Cal_ID_Event_Embed_Shortcode {
 	 * @return void
 	 */
 	public static function init() {
-		add_shortcode( 'cal_id_event_embed', array( __CLASS__, 'render_shortcode' ) );
+		add_shortcode( 'cal_id_embed', array( __CLASS__, 'render_shortcode' ) );
 	}
 
 	/**
@@ -43,9 +43,9 @@ class Cal_ID_Event_Embed_Shortcode {
 			'utm_term' => '',
 		);
 
-		$atts = shortcode_atts( $defaults, $atts, 'cal_id_event_embed' );
+		$atts = shortcode_atts( $defaults, $atts, 'cal_id_embed' );
 
-		return Cal_ID_Event_Embed_Render::render( self::normalize_atts( $atts ), 'frontend' );
+		return Cal_ID_Embed_Render::render( self::normalize_atts( $atts ), 'frontend' );
 	}
 
 	/**

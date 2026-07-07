@@ -1,4 +1,4 @@
-=== Cal ID Event Embed ===
+=== Cal ID Embed ===
 Contributors: cal-id
 Tags: calendar, booking, embed, shortcode, gutenberg
 Requires at least: 6.0
@@ -12,10 +12,10 @@ Embed hosted Cal ID event pages in WordPress with a dynamic block and shortcode.
 
 == Description ==
 
-Cal ID Event Embed lets you embed hosted Cal ID event pages inside WordPress using:
+Cal ID Embed lets you embed hosted Cal ID event pages inside WordPress using:
 
 - a dynamic Gutenberg block
-- a legacy shortcode: `[cal_id_event_embed]`
+- a shortcode: `[cal_id_embed]`
 
 Supported layouts:
 
@@ -33,15 +33,15 @@ Key behaviors:
 
 == Installation ==
 
-1. Upload the plugin files to `/wp-content/plugins/cal-id-event-embed/`
+1. Upload the plugin files to `/wp-content/plugins/cal-id-embed/`
 2. Activate the plugin in WordPress
-3. Add the `Cal ID Event Embed` block or use the shortcode
+3. Add the `Cal ID Embed` block or use the shortcode
 
 == Usage ==
 
 Block:
 
-1. Insert `Cal ID Event Embed`
+1. Insert `Cal ID Embed`
 2. Enter a Cal ID event path such as:
    - `owner/event`
    - `team/owner/event`
@@ -50,19 +50,19 @@ Block:
 Shortcode:
 
 ```text
-[cal_id_event_embed event_path="owner/event" layout="inline"]
+[cal_id_embed event_path="owner/event" layout="inline"]
 ```
 
 Modal example:
 
 ```text
-[cal_id_event_embed event_path="owner/event" layout="modal" button_text="Book now"]
+[cal_id_embed event_path="owner/event" layout="modal" button_text="Book now"]
 ```
 
 Floating example:
 
 ```text
-[cal_id_event_embed event_path="owner/event" layout="floating"]
+[cal_id_embed event_path="owner/event" layout="floating"]
 ```
 
 == FAQ ==

@@ -1,8 +1,8 @@
 <?php
 /**
- * Uninstall routine for Cal ID Event Embed.
+ * Uninstall routine for Cal ID Embed.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

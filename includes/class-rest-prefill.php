@@ -2,14 +2,14 @@
 /**
  * REST endpoint for logged-in prefill data.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cal_ID_Event_Embed_Rest_Prefill {
+class Cal_ID_Embed_Rest_Prefill {
 
 	/**
 	 * Boot the REST route.

@@ -2,14 +2,14 @@
 /**
  * Shared render layer.
  *
- * @package CalIDEventEmbed
+ * @package CalIDEmbed
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-class Cal_ID_Event_Embed_Render {
+class Cal_ID_Embed_Render {
 
 	/**
 	 * Render an embed instance.
@@ -27,7 +27,7 @@ class Cal_ID_Event_Embed_Render {
 		self::enqueue_frontend_assets();
 
 		$classes = array(
-			'cal-id-event-embed',
+			'cal-id-embed',
 			'layout-' . $sanitized['layout'],
 			'theme-' . $sanitized['theme'],
 		);
@@ -45,20 +45,20 @@ class Cal_ID_Event_Embed_Render {
 		$json_config = self::build_json_config( $sanitized );
 		$output = array();
 		$output[] = '<div ' . $wrapper . '>';
-		$output[] = '<script type="application/json" class="cal-id-event-embed__config">' . self::encode_json_for_script( $json_config ) . '</script>';
+		$output[] = '<script type="application/json" class="cal-id-embed__config">' . self::encode_json_for_script( $json_config ) . '</script>';
 
 		if ( '' === $sanitized['event_path_raw'] ) {
-			$output[] = '<div class="cal-id-event-embed__placeholder">' . esc_html__( 'Enter an event path to preview.', 'cal-id-event-embed' ) . '<br />' . esc_html__( 'Use owner/event or team/owner/event.', 'cal-id-event-embed' ) . '</div>';
+			$output[] = '<div class="cal-id-embed__placeholder">' . esc_html__( 'Enter an event path to preview.', 'cal-id-embed' ) . '<br />' . esc_html__( 'Use owner/event or team/owner/event.', 'cal-id-embed' ) . '</div>';
 		} elseif ( ! $is_valid_path ) {
-			$output[] = '<div class="cal-id-event-embed__placeholder">' . esc_html( $is_editor ? __( 'Unable to preview embed - check event path.', 'cal-id-event-embed' ) : __( 'Booking is temporarily unavailable. Please try again later.', 'cal-id-event-embed' ) ) . '</div>';
+			$output[] = '<div class="cal-id-embed__placeholder">' . esc_html( $is_editor ? __( 'Unable to preview embed - check event path.', 'cal-id-embed' ) : __( 'Booking is temporarily unavailable. Please try again later.', 'cal-id-embed' ) ) . '</div>';
 		} else {
 			if ( 'inline' === $sanitized['layout'] ) {
-				$output[] = '<div class="cal-id-event-embed__container" style="min-height:' . intval( $sanitized['embedHeight'] ) . 'px"></div>';
+				$output[] = '<div class="cal-id-embed__container" style="min-height:' . intval( $sanitized['embedHeight'] ) . 'px"></div>';
 			} elseif ( 'modal' === $sanitized['layout'] ) {
-				$output[] = '<button type="button" class="cal-id-event-embed__trigger" data-cal-id-trigger="' . esc_attr( $instance_id ) . '">' . esc_html( $sanitized['buttonText'] ) . '</button>';
-				$output[] = '<div class="cal-id-event-embed__container" hidden></div>';
+				$output[] = '<button type="button" class="cal-id-embed__trigger" data-cal-id-trigger="' . esc_attr( $instance_id ) . '">' . esc_html( $sanitized['buttonText'] ) . '</button>';
+				$output[] = '<div class="cal-id-embed__container" hidden></div>';
 			} else {
-				$output[] = '<div class="cal-id-event-embed__container"></div>';
+				$output[] = '<div class="cal-id-embed__container"></div>';
 			}
 		}
 
@@ -76,23 +76,23 @@ class Cal_ID_Event_Embed_Render {
 	private static function sanitize_attributes( $attributes ) {
 		$attributes = is_array( $attributes ) ? $attributes : array();
 		$event_path_raw = isset( $attributes['eventPath'] ) ? (string) $attributes['eventPath'] : '';
-		$event_path = Cal_ID_Event_Embed_Sanitize::sanitize_event_path( $event_path_raw );
+		$event_path = Cal_ID_Embed_Sanitize::sanitize_event_path( $event_path_raw );
 
 		return array(
 			'event_path_raw' => $event_path_raw,
 			'event_path' => $event_path,
-			'layout' => Cal_ID_Event_Embed_Sanitize::sanitize_layout( $attributes['layout'] ?? 'inline' ),
-			'theme' => Cal_ID_Event_Embed_Sanitize::sanitize_theme( $attributes['theme'] ?? 'auto' ),
-			'brandColor' => Cal_ID_Event_Embed_Sanitize::sanitize_brand_color( $attributes['brandColor'] ?? '' ),
-			'buttonText' => Cal_ID_Event_Embed_Sanitize::sanitize_button_text( $attributes['buttonText'] ?? 'Book now' ),
-			'embedHeight' => Cal_ID_Event_Embed_Sanitize::sanitize_embed_height( $attributes['embedHeight'] ?? 600 ),
-			'hideEventDetails' => Cal_ID_Event_Embed_Sanitize::sanitize_boolean_flag( $attributes['hideEventDetails'] ?? false ),
-			'prefillEnabled' => Cal_ID_Event_Embed_Sanitize::sanitize_prefill_flag( $attributes['prefillEnabled'] ?? false ),
-			'utmSource' => Cal_ID_Event_Embed_Sanitize::sanitize_utm_param( $attributes['utmSource'] ?? '' ),
-			'utmMedium' => Cal_ID_Event_Embed_Sanitize::sanitize_utm_param( $attributes['utmMedium'] ?? '' ),
-			'utmCampaign' => Cal_ID_Event_Embed_Sanitize::sanitize_utm_param( $attributes['utmCampaign'] ?? '' ),
-			'utmContent' => Cal_ID_Event_Embed_Sanitize::sanitize_utm_param( $attributes['utmContent'] ?? '' ),
-			'utmTerm' => Cal_ID_Event_Embed_Sanitize::sanitize_utm_param( $attributes['utmTerm'] ?? '' ),
+			'layout' => Cal_ID_Embed_Sanitize::sanitize_layout( $attributes['layout'] ?? 'inline' ),
+			'theme' => Cal_ID_Embed_Sanitize::sanitize_theme( $attributes['theme'] ?? 'auto' ),
+			'brandColor' => Cal_ID_Embed_Sanitize::sanitize_brand_color( $attributes['brandColor'] ?? '' ),
+			'buttonText' => Cal_ID_Embed_Sanitize::sanitize_button_text( $attributes['buttonText'] ?? 'Book now' ),
+			'embedHeight' => Cal_ID_Embed_Sanitize::sanitize_embed_height( $attributes['embedHeight'] ?? 600 ),
+			'hideEventDetails' => Cal_ID_Embed_Sanitize::sanitize_boolean_flag( $attributes['hideEventDetails'] ?? false ),
+			'prefillEnabled' => Cal_ID_Embed_Sanitize::sanitize_prefill_flag( $attributes['prefillEnabled'] ?? false ),
+			'utmSource' => Cal_ID_Embed_Sanitize::sanitize_utm_param( $attributes['utmSource'] ?? '' ),
+			'utmMedium' => Cal_ID_Embed_Sanitize::sanitize_utm_param( $attributes['utmMedium'] ?? '' ),
+			'utmCampaign' => Cal_ID_Embed_Sanitize::sanitize_utm_param( $attributes['utmCampaign'] ?? '' ),
+			'utmContent' => Cal_ID_Embed_Sanitize::sanitize_utm_param( $attributes['utmContent'] ?? '' ),
+			'utmTerm' => Cal_ID_Embed_Sanitize::sanitize_utm_param( $attributes['utmTerm'] ?? '' ),
 		);
 	}
 
@@ -162,7 +162,7 @@ class Cal_ID_Event_Embed_Render {
 	 * @return string
 	 */
 	private static function generate_instance_id() {
-		return 'cal-id-event-embed-' . wp_generate_uuid4();
+		return 'cal-id-embed-' . wp_generate_uuid4();
 	}
 
 	/**
@@ -185,7 +185,7 @@ class Cal_ID_Event_Embed_Render {
 		);
 
 		wp_enqueue_script(
-			'cal-id-event-embed-view',
+			'cal-id-embed-view',
 			$script_url,
 			$asset['dependencies'],
 			$asset['version'],
