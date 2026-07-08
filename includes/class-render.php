@@ -118,6 +118,7 @@ class Cal_ID_Embed_Render {
 			'utmContent' => $sanitized['utmContent'],
 			'utmTerm' => $sanitized['utmTerm'],
 			'prefillEndpoint' => rest_url( 'cal-id-embed/v1/prefill' ),
+			'restNonce' => function_exists( 'wp_create_nonce' ) ? wp_create_nonce( 'wp_rest' ) : '',
 		);
 	}
 

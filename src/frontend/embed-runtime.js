@@ -46,11 +46,7 @@ async function initInstance( root ) {
 	Cal.ns[ instanceId ]( 'ui', uiConfig );
 
 	const runtimeConfig = buildRuntimeConfig( config );
-	if ( prefill ) {
-		runtimeConfig.prefill = prefill;
-	}
-
-	const calLink = buildCalLink( config.eventPath, config );
+	const calLink = buildCalLink( config.eventPath, config, prefill );
 
 	const container = root.querySelector( '.cal-id-embed__container' );
 	if ( config.layout === 'inline' && container ) {
@@ -76,13 +72,14 @@ async function initInstance( root ) {
 		Cal.ns[ instanceId ]( 'floatingButton', {
 			calLink,
 			calOrigin: 'https://cal.id',
-			config: { layout: 'month_view' },
+			config: {
+				layout: 'month_view',
+			},
 			buttonText: config.buttonText || 'Book now',
 			hideButtonIcon: false,
 			buttonPosition: 'bottom-right',
 			buttonColor: brandColor,
 			buttonTextColor: '',
-			prefill,
 		} );
 	}
 }
@@ -92,17 +89,12 @@ async function getPrefillData( config ) {
 		return undefined;
 	}
 
-	console.log("Headers: " ,{
-
-				'X-WP-Nonce': window.calIdEmbed,
-	})
-
 	try {
 		const response = await fetch( config.prefillEndpoint, {
 			credentials: 'same-origin',
 			headers: {
 				Accept: 'application/json',
-				'X-WP-Nonce': window.wpApiSettings?.nonce,
+				...( config.restNonce ? { 'X-WP-Nonce': config.restNonce } : {} ),
 			},
 		} );
 
@@ -114,10 +106,6 @@ async function getPrefillData( config ) {
 		const name = typeof payload?.name === 'string' ? payload.name.trim() : '';
 		const email = typeof payload?.email === 'string' ? payload.email.trim() : '';
 
-
-		console.log("Prefill data: ", {
-			name, email
-		})
 		if ( ! name && ! email ) {
 			return undefined;
 		}

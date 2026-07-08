@@ -1,4 +1,4 @@
-export function buildCalLink( eventPath, config ) {
+export function buildCalLink( eventPath, config, prefill = undefined ) {
 	const searchParams = new URLSearchParams();
 	const params = {
 		utm_source: config.utmSource,
@@ -13,6 +13,14 @@ export function buildCalLink( eventPath, config ) {
 			searchParams.set( key, value );
 		}
 	} );
+
+	if ( prefill?.name ) {
+		searchParams.set( 'name', prefill.name );
+	}
+
+	if ( prefill?.email ) {
+		searchParams.set( 'email', prefill.email );
+	}
 
 	const queryString = searchParams.toString();
 	return queryString ? `${ eventPath }?${ queryString }` : eventPath;
