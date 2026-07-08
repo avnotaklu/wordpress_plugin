@@ -14,7 +14,11 @@ import {
 	ToggleControl,
 	Notice,
 } from '@wordpress/components';
-import { buildCalLink, injectCalStub } from '../shared/cal-embed';
+import {
+	buildCalLink,
+	buildRuntimeConfig,
+	injectCalStub,
+} from '../shared/cal-embed';
 
 const allowedLayouts = [
 	{ label: 'Inline', value: 'inline' },
@@ -41,7 +45,6 @@ function LivePreview( { attributes } ) {
 		`cal-id-embed-preview-${ Math.random().toString( 36 ).slice( 2 ) }`
 	);
 	const {
-		brandColor,
 		hideEventDetails,
 		theme,
 		utmCampaign,
@@ -114,7 +117,6 @@ function LivePreview( { attributes } ) {
 			container.innerHTML = '';
 		};
 	}, [
-		brandColor,
 		attributes.embedHeight,
 		hideEventDetails,
 		attributes.layout,
