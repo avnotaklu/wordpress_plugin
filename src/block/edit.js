@@ -1,6 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
-import { useEffect, useRef, useState } from '@wordpress/element';
+import {
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from '@wordpress/element';
 import {
 	PanelBody,
 	TextControl,
@@ -47,7 +52,7 @@ function LivePreview( { attributes } ) {
 	} = attributes;
 	const eventPath = normalizePreviewEventPath( attributes.eventPath );
 
-	useEffect( () => {
+	useLayoutEffect( () => {
 		const container = containerRef.current;
 		if ( ! container || ! eventPath ) {
 			return;
@@ -56,31 +61,56 @@ function LivePreview( { attributes } ) {
 		container.innerHTML = '';
 		container.id = container.id || `${ instanceIdRef.current }-container`;
 
-		const Cal = injectCalStub();
-		Cal( 'init', instanceIdRef.current, { origin: 'https://cal.id' } );
-		Cal.ns[ instanceIdRef.current ]( 'ui', {
-			cssVarsPerTheme: {
-				light: { 'cal-brand': brandColor || '' },
-				dark: { 'cal-brand': brandColor || '' },
-			},
+		const targetWindow = container.ownerDocument?.defaultView || window;
+		const Cal = injectCalStub( targetWindow );
+		const initConfig = new targetWindow.Object();
+		initConfig.origin = 'https://cal.id';
+		Cal( 'init', instanceIdRef.current, initConfig );
 
-			theme,
-			hideEventTypeDetails: !! hideEventDetails,
-			layout: 'month_view',
-		} );
-		Cal.ns[ instanceIdRef.current ]( 'inline', {
-			elementOrSelector: `#${ container.id }`,
-			calLink: buildCalLink( eventPath, {
+		const uiConfig = new targetWindow.Object();
+		uiConfig.theme = theme;
+		uiConfig.hideEventTypeDetails = !! hideEventDetails;
+		uiConfig.layout = 'month_view';
+		if ( brandColor ) {
+			const cssVarsPerTheme = new targetWindow.Object();
+			const lightTheme = new targetWindow.Object();
+			const darkTheme = new targetWindow.Object();
+			lightTheme[ 'cal-brand' ] = brandColor;
+			darkTheme[ 'cal-brand' ] = brandColor;
+			cssVarsPerTheme.light = lightTheme;
+			cssVarsPerTheme.dark = darkTheme;
+			uiConfig.cssVarsPerTheme = cssVarsPerTheme;
+		}
+		Cal.ns[ instanceIdRef.current ]( 'ui', uiConfig );
+		const mountTimer = targetWindow.setTimeout( () => {
+			if ( ! container.isConnected ) {
+				return;
+			}
+
+			const target = container.ownerDocument?.getElementById( container.id );
+			if ( ! target ) {
+				return;
+			}
+
+			const inlineConfig = new targetWindow.Object();
+			inlineConfig.layout = 'month_view';
+
+			const inlineArgs = new targetWindow.Object();
+			inlineArgs.elementOrSelector = `#${ target.id }`;
+			inlineArgs.calLink = buildCalLink( eventPath, {
 				utmCampaign,
 				utmContent,
 				utmMedium,
 				utmSource,
 				utmTerm,
-			} ),
-			config: { layout: 'month_view' },
-		} );
+			} );
+			inlineArgs.config = inlineConfig;
+
+			Cal.ns[ instanceIdRef.current ]( 'inline', inlineArgs );
+		}, 0 );
 
 		return () => {
+			targetWindow.clearTimeout( mountTimer );
 			container.innerHTML = '';
 		};
 	}, [

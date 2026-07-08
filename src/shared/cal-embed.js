@@ -26,9 +26,9 @@ export function buildCalLink( eventPath, config, prefill = undefined ) {
 	return queryString ? `${ eventPath }?${ queryString }` : eventPath;
 }
 
-export function injectCalStub() {
-	if ( window.Cal ) {
-		return window.Cal;
+export function injectCalStub( targetWindow = window ) {
+	if ( targetWindow.Cal ) {
+		return targetWindow.Cal;
 	}
 
 	( function ( C, A, L ) {
@@ -64,9 +64,9 @@ export function injectCalStub() {
 				}
 				p( cal, ar );
 			};
-	} )( window, 'https://cal.id/embed-link/embed.js', 'init' );
+	} )( targetWindow, 'https://cal.id/embed-link/embed.js', 'init' );
 
-	return window.Cal;
+	return targetWindow.Cal;
 }
 
 export function buildRuntimeConfig( config ) {
