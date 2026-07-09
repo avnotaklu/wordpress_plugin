@@ -22,7 +22,7 @@ const includeFiles = [
 	'phpunit.xml',
 ];
 
-const includeDirs = [ 'build', 'includes', 'src', 'languages' ];
+const includeDirs = [ 'build', 'includes', 'src', 'languages', 'assets' ];
 
 const excludeNames = new Set( [
 	'.git',

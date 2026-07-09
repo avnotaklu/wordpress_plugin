@@ -14,7 +14,7 @@ Add Cal ID booking pages to your WordPress site with a block or shortcode.
 
 Cal ID Embed makes it easy to place hosted Cal ID booking pages inside WordPress using:
 
-- a widget block
+- a Gutenberg block
 - a shortcode: `[cal_id_embed]`
 
 Supported layouts:
