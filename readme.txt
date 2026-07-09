@@ -14,7 +14,7 @@ Add Cal ID booking pages to your WordPress site with a block or shortcode.
 
 Cal ID Embed makes it easy to place hosted Cal ID booking pages inside WordPress using:
 
-- a Gutenberg block
+- a WordPress block
 - a shortcode: `[cal_id_embed]`
 
 Supported layouts:
@@ -26,22 +26,20 @@ Supported layouts:
 What it supports:
 
 - hosted `https://cal.id/...` links only
-- sanitized shared render path for block and shortcode
 - logged-in prefill via REST only
 - UTM tracking support
-- cache-safe output with no user PII in HTML
 
 = External services =
 
 This plugin embeds event pages hosted by Cal ID. When an embed is rendered, the front end loads the Cal ID embed script from `https://cal.id/embed-link/embed.js` and displays the configured Cal ID event from `https://cal.id/`.
 
-The event path and optional display settings such as theme, layout, brand color, button text, and UTM parameters are passed to Cal ID so the booking embed can be displayed. If logged-in prefill is enabled, the plugin exposes the current logged-in user's name and email through a protected local WordPress REST endpoint for use by the embed. This information is not printed into the page HTML.
+The event path and optional display settings such as theme, layout, brand color, button text, and UTM parameters are passed to Cal ID so the booking embed can be displayed. If logged-in prefill is enabled, the plugin fetches the current logged-in user's name and email from a protected local WordPress REST endpoint when the embed loads, then sends that data to Cal ID for prefill. The user details are not printed into the page HTML.
 
-Use of the Cal ID service is subject to Cal ID's terms and privacy policy.
+Use of the Cal ID service is subject to Cal ID's [Terms of Use](https://cal.id/termofuse) and [Privacy Policy](https://cal.id/privacy-policy).
 
 == Installation ==
 
-1. Upload the plugin files to `/wp-content/plugins/cal-id-embed/`
+1. Install using the WordPress built-in Plugin installer or Upload the plugin files to `/wp-content/plugins/cal-id-embed/`
 2. Activate the plugin in WordPress
 3. Add the `Cal ID Embed` block or place the shortcode in your content
 
@@ -57,21 +55,21 @@ Block:
 
 Shortcode:
 
-```text
-[cal_id_embed event_path="owner/event" layout="inline"]
-```
+    [cal_id_embed event_path="owner/event" layout="inline"]
 
 Modal example:
 
-```text
-[cal_id_embed event_path="owner/event" layout="modal" button_text="Book now"]
-```
+    [cal_id_embed event_path="owner/event" layout="modal" button_text="Book now"]
 
 Floating example:
 
-```text
-[cal_id_embed event_path="owner/event" layout="floating"]
-```
+    [cal_id_embed event_path="owner/event" layout="floating"]
+
+== Screenshots ==
+
+1. Inline booking embed in the block editor.
+2. Inline booking embed in live page.
+2. Floating booking embed in live page.
 
 == FAQ ==
 
@@ -95,11 +93,15 @@ You can use the block settings for layout, theme, brand color, button text, heig
 
 Make sure the event path points to a hosted Cal ID page on `https://cal.id/` and that the layout is set correctly.
 
+= Does prefill happen automatically? =
+
+Only when you turn prefill on. In that case, the plugin fetches the current logged-in user's name and email when the embed loads and passes them to Cal ID for prefill.
+
 == Changelog ==
 
 = 1.0.0 =
 
-- Initial release scaffold
+- Initial release
 - Dynamic block and shortcode support
 - Shared sanitization and render layer
 - REST prefill endpoint
