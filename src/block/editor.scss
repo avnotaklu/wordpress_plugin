@@ -1,20 +1,20 @@
-.cal-id-embed__preview-frame {
+.cal-id__preview-frame {
 	min-height: 180px;
 	position: relative;
 }
 
-.cal-id-embed__preview-header {
+.cal-id__preview-header {
 	font-weight: 600;
 	margin-bottom: 8px;
 }
 
-.cal-id-embed__preview-body {
+.cal-id__preview-body {
 	color: #475467;
 	position: relative;
 	z-index: 1;
 }
 
-.cal-id-embed__preview-shield {
+.cal-id__preview-shield {
 	position: absolute;
 	inset: 0;
 	background: rgba(255, 255, 255, 0.22);
@@ -23,7 +23,7 @@
 	cursor: not-allowed;
 }
 
-.cal-id-embed__static-preview {
+.cal-id__static-preview {
 	box-sizing: border-box;
 	border: 1px dotted #98a2b3;
 	border-radius: 8px;
@@ -38,7 +38,7 @@
 	justify-content: center;
 }
 
-.cal-id-embed__static-preview-content {
+.cal-id__static-preview-content {
 	max-width: 440px;
 	margin: 0 auto;
 	font-size: 12px;
@@ -47,7 +47,7 @@
 	color: #667085;
 }
 
-.cal-id-embed__preview-help {
+.cal-id__preview-help {
 	margin-top: 8px;
 	font-size: 12px;
 	line-height: 1.5;

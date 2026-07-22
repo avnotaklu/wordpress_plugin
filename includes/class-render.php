@@ -27,7 +27,7 @@ class Cal_ID_Embed_Render {
 		self::enqueue_frontend_assets();
 
 		$classes = array(
-			'cal-id-embed',
+			'cal-id',
 			'layout-' . $sanitized['layout'],
 			'theme-' . $sanitized['theme'],
 		);
@@ -45,20 +45,20 @@ class Cal_ID_Embed_Render {
 		$json_config = self::build_json_config( $sanitized );
 		$output = array();
 		$output[] = '<div ' . $wrapper . '>';
-		$output[] = '<script type="application/json" class="cal-id-embed__config">' . self::encode_json_for_script( $json_config ) . '</script>';
+		$output[] = '<script type="application/json" class="cal-id__config">' . self::encode_json_for_script( $json_config ) . '</script>';
 
 		if ( '' === $sanitized['event_path_raw'] ) {
-			$output[] = '<div class="cal-id-embed__placeholder">' . esc_html__( 'Enter an event path to preview.', 'cal-id-embed' ) . '<br />' . esc_html__( 'Use owner/event or team/owner/event.', 'cal-id-embed' ) . '</div>';
+			$output[] = '<div class="cal-id__placeholder">' . esc_html__( 'Enter an event path to preview.', 'cal-id' ) . '<br />' . esc_html__( 'Use owner/event or team/owner/event.', 'cal-id' ) . '</div>';
 		} elseif ( ! $is_valid_path ) {
-			$output[] = '<div class="cal-id-embed__placeholder">' . esc_html( $is_editor ? __( 'Unable to preview embed - check event path.', 'cal-id-embed' ) : __( 'Booking is temporarily unavailable. Please try again later.', 'cal-id-embed' ) ) . '</div>';
+			$output[] = '<div class="cal-id__placeholder">' . esc_html( $is_editor ? __( 'Unable to preview embed - check event path.', 'cal-id' ) : __( 'Booking is temporarily unavailable. Please try again later.', 'cal-id' ) ) . '</div>';
 		} else {
 			if ( 'inline' === $sanitized['layout'] ) {
-				$output[] = '<div class="cal-id-embed__container" style="min-height:' . intval( $sanitized['embedHeight'] ) . 'px"></div>';
+				$output[] = '<div class="cal-id__container" style="min-height:' . intval( $sanitized['embedHeight'] ) . 'px"></div>';
 			} elseif ( 'modal' === $sanitized['layout'] ) {
-				$output[] = '<button type="button" class="cal-id-embed__trigger" data-cal-id-trigger="' . esc_attr( $instance_id ) . '">' . esc_html( $sanitized['buttonText'] ) . '</button>';
-				$output[] = '<div class="cal-id-embed__container" hidden></div>';
+				$output[] = '<button type="button" class="cal-id__trigger" data-cal-id-trigger="' . esc_attr( $instance_id ) . '">' . esc_html( $sanitized['buttonText'] ) . '</button>';
+				$output[] = '<div class="cal-id__container" hidden></div>';
 			} else {
-				$output[] = '<div class="cal-id-embed__container"></div>';
+				$output[] = '<div class="cal-id__container"></div>';
 			}
 		}
 
@@ -117,7 +117,7 @@ class Cal_ID_Embed_Render {
 			'utmCampaign' => $sanitized['utmCampaign'],
 			'utmContent' => $sanitized['utmContent'],
 			'utmTerm' => $sanitized['utmTerm'],
-			'prefillEndpoint' => rest_url( 'cal-id-embed/v1/prefill' ),
+			'prefillEndpoint' => rest_url( 'cal-id/v1/prefill' ),
 			'restNonce' => function_exists( 'wp_create_nonce' ) ? wp_create_nonce( 'wp_rest' ) : '',
 		);
 	}
@@ -163,7 +163,7 @@ class Cal_ID_Embed_Render {
 	 * @return string
 	 */
 	private static function generate_instance_id() {
-		return 'cal-id-embed-' . wp_generate_uuid4();
+		return 'cal-id-' . wp_generate_uuid4();
 	}
 
 	/**
@@ -186,7 +186,7 @@ class Cal_ID_Embed_Render {
 		);
 
 		wp_enqueue_script(
-			'cal-id-embed-view',
+			'cal-id-view',
 			$script_url,
 			$asset['dependencies'],
 			$asset['version'],

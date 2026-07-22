@@ -6,14 +6,14 @@ const os = require( 'os' );
 const { execFileSync } = require( 'child_process' );
 
 const rootDir = path.resolve( __dirname, '..' );
-const packageName = 'cal-id-embed';
+const packageName = 'cal-id';
 const stagingRoot = path.join( os.tmpdir(), `${ packageName }-release` );
 const stagingDir = path.join( stagingRoot, packageName );
 const zipPath = path.join( rootDir, `${ packageName }.zip` );
 const shouldZip = process.argv.includes( '--zip' );
 
 const includeFiles = [
-	'cal-id-embed.php',
+	'cal-id.php',
 	'uninstall.php',
 	'readme.txt',
 	'composer.json',
@@ -22,7 +22,7 @@ const includeFiles = [
 	'phpunit.xml',
 ];
 
-const includeDirs = [ 'build', 'includes', 'src', 'languages', 'assets' ];
+const includeDirs = [ 'build', 'includes', 'src', 'languages' ];
 
 const excludeNames = new Set( [
 	'.git',

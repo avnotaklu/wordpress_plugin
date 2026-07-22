@@ -2,11 +2,11 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "cal-id/embed",
-  "title": "Cal ID Embed",
+  "title": "Cal ID",
   "category": "widgets",
   "icon": "calendar-alt",
   "description": "Embed hosted Cal ID event pages.",
-  "textdomain": "cal-id-embed",
+  "textdomain": "cal-id",
   "attributes": {
     "eventPath": { "type": "string", "default": "" },
     "layout": { "type": "string", "default": "inline" },

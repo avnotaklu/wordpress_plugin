@@ -42,7 +42,7 @@ function normalizePreviewEventPath( eventPath ) {
 function LivePreview( { attributes } ) {
 	const containerRef = useRef( null );
 	const instanceIdRef = useRef(
-		`cal-id-embed-preview-${ Math.random().toString( 36 ).slice( 2 ) }`
+		`cal-id-preview-${ Math.random().toString( 36 ).slice( 2 ) }`
 	);
 	const {
 		hideEventDetails,
@@ -130,13 +130,13 @@ function LivePreview( { attributes } ) {
 	] );
 
 	return (
-		<div className="cal-id-embed__preview-frame cal-id-embed__preview-frame--live">
+		<div className="cal-id__preview-frame cal-id__preview-frame--live">
 			<div
 				ref={ containerRef }
-				className="cal-id-embed__preview-body"
+				className="cal-id__preview-body"
 				style={ { minHeight: `${ attributes.embedHeight || 600 }px` } }
 			/>
-			<div className="cal-id-embed__preview-shield" aria-hidden="true" />
+			<div className="cal-id__preview-shield" aria-hidden="true" />
 		</div>
 	);
 }
@@ -144,19 +144,19 @@ function LivePreview( { attributes } ) {
 function StaticPreview( { attributes } ) {
 	if ( attributes.layout === 'modal' ) {
 		return (
-			<button type="button" className="cal-id-embed__trigger">
-				{ attributes.buttonText || __( 'Book now', 'cal-id-embed' ) }
+			<button type="button" className="cal-id__trigger">
+				{ attributes.buttonText || __( 'Book now', 'cal-id' ) }
 			</button>
 		);
 	}
 
 	if ( attributes.layout === 'floating' ) {
 		return (
-			<div className="cal-id-embed__static-preview cal-id-embed__static-preview--floating">
-				<div className="cal-id-embed__static-preview-content">
+			<div className="cal-id__static-preview cal-id__static-preview--floating">
+				<div className="cal-id__static-preview-content">
 					{ __(
 						'Floating button is displayed at bottom',
-						'cal-id-embed'
+						'cal-id'
 					) }
 				</div>
 			</div>
@@ -164,11 +164,11 @@ function StaticPreview( { attributes } ) {
 	}
 
 	return (
-		<div className="cal-id-embed__static-preview cal-id-embed__static-preview--inline">
-			<div className="cal-id-embed__static-preview-content">
+		<div className="cal-id__static-preview cal-id__static-preview--inline">
+			<div className="cal-id__static-preview-content">
 				{ __(
-					'Cal ID embed — visible on the published page',
-					'cal-id-embed'
+					'Cal ID booking embed — visible on the published page',
+					'cal-id'
 				) }
 			</div>
 		</div>
@@ -205,13 +205,13 @@ export default function Edit( { attributes, setAttributes } ) {
 		preview = <StaticPreview attributes={ attributes } />;
 	} else {
 		preview = (
-			<div className="cal-id-embed__placeholder">
+			<div className="cal-id__placeholder">
 				{ attributes.eventPath
 					? __(
 							'Block configured. Preview will be rendered on the frontend.',
-							'cal-id-embed'
+							'cal-id'
 					  )
-					: __( 'Enter an event path to preview.', 'cal-id-embed' ) }
+					: __( 'Enter an event path to preview.', 'cal-id' ) }
 			</div>
 		);
 	}
@@ -220,14 +220,14 @@ export default function Edit( { attributes, setAttributes } ) {
 		<>
 			<InspectorControls>
 				<PanelBody
-					title={ __( 'Event', 'cal-id-embed' ) }
+					title={ __( 'Event', 'cal-id' ) }
 					initialOpen={ true }
 				>
 					<TextControl
-						label={ __( 'Event Path', 'cal-id-embed' ) }
+						label={ __( 'Event Path', 'cal-id' ) }
 						help={ __(
 							'Use owner/event, team/owner/event, or a hosted https://cal.id URL.',
-							'cal-id-embed'
+							'cal-id'
 						) }
 						value={ attributes.eventPath }
 						onChange={ ( value ) =>
@@ -239,15 +239,15 @@ export default function Edit( { attributes, setAttributes } ) {
 						<Notice status="error" isDismissible={ false }>
 							{ __(
 								'Unable to preview embed - check event path.',
-								'cal-id-embed'
+								'cal-id'
 							) }
 						</Notice>
 					) : null }
 				</PanelBody>
 
-				<PanelBody title={ __( 'Layout', 'cal-id-embed' ) }>
+				<PanelBody title={ __( 'Layout', 'cal-id' ) }>
 					<SelectControl
-						label={ __( 'Layout', 'cal-id-embed' ) }
+						label={ __( 'Layout', 'cal-id' ) }
 						value={ attributes.layout }
 						options={ allowedLayouts }
 						onChange={ ( value ) =>
@@ -255,7 +255,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 					/>
 					<RangeControl
-						label={ __( 'Embed Height', 'cal-id-embed' ) }
+						label={ __( 'Embed Height', 'cal-id' ) }
 						value={ attributes.embedHeight }
 						min={ 320 }
 						max={ 1600 }
@@ -265,7 +265,7 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 					/>
 					<ToggleControl
-						label={ __( 'Hide Event Details', 'cal-id-embed' ) }
+						label={ __( 'Hide Event Details', 'cal-id' ) }
 						checked={ !! attributes.hideEventDetails }
 						onChange={ ( value ) =>
 							setAttributes( { hideEventDetails: value } )
@@ -273,9 +273,9 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
-				<PanelBody title={ __( 'Appearance', 'cal-id-embed' ) }>
+				<PanelBody title={ __( 'Appearance', 'cal-id' ) }>
 					<SelectControl
-						label={ __( 'Theme', 'cal-id-embed' ) }
+						label={ __( 'Theme', 'cal-id' ) }
 						value={ attributes.theme }
 						options={ allowedThemes }
 						onChange={ ( value ) =>
@@ -283,14 +283,14 @@ export default function Edit( { attributes, setAttributes } ) {
 						}
 					/>
 					<TextControl
-						label={ __( 'Brand Color', 'cal-id-embed' ) }
+						label={ __( 'Brand Color', 'cal-id' ) }
 						value={ attributes.brandColor }
 						onChange={ ( value ) =>
 							setAttributes( { brandColor: value } )
 						}
 					/>
 					<TextControl
-						label={ __( 'Button Text', 'cal-id-embed' ) }
+						label={ __( 'Button Text', 'cal-id' ) }
 						value={ attributes.buttonText }
 						onChange={ ( value ) =>
 							setAttributes( { buttonText: value } )
@@ -298,11 +298,11 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
-				<PanelBody title={ __( 'Prefill', 'cal-id-embed' ) }>
+				<PanelBody title={ __( 'Prefill', 'cal-id' ) }>
 					<ToggleControl
 						label={ __(
 							'Enable logged-in prefill',
-							'cal-id-embed'
+							'cal-id'
 						) }
 						checked={ !! attributes.prefillEnabled }
 						onChange={ ( value ) =>
@@ -311,7 +311,7 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
-				<PanelBody title={ __( 'Tracking', 'cal-id-embed' ) }>
+				<PanelBody title={ __( 'Tracking', 'cal-id' ) }>
 					<TextControl
 						label="UTM Source"
 						value={ attributes.utmSource }
@@ -349,18 +349,18 @@ export default function Edit( { attributes, setAttributes } ) {
 					/>
 				</PanelBody>
 
-				<PanelBody title={ __( 'Preview', 'cal-id-embed' ) }>
+				<PanelBody title={ __( 'Preview', 'cal-id' ) }>
 					<ToggleControl
-						label={ __( 'Live preview', 'cal-id-embed' ) }
+						label={ __( 'Live preview', 'cal-id' ) }
 						checked={ showLivePreview }
 						disabled={ attributes.layout !== 'inline' }
 						onChange={ setShowLivePreview }
 					/>
 					{ attributes.layout !== 'inline' ? (
-						<div className="cal-id-embed__preview-help">
+						<div className="cal-id__preview-help">
 							{ __(
 								'Live preview is only available for inline embeds.',
-								'cal-id-embed'
+								'cal-id'
 							) }
 						</div>
 					) : null }

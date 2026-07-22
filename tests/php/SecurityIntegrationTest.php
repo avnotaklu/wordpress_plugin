@@ -62,7 +62,7 @@ class SecurityIntegrationTest extends TestCase {
 		Cal_ID_Embed_Rest_Prefill::register_routes();
 
 		$this->assertNotEmpty( $GLOBALS['cal_id_test_rest_routes'] );
-		$this->assertSame( 'cal-id-embed/v1', $GLOBALS['cal_id_test_rest_routes'][0]['namespace'] );
+		$this->assertSame( 'cal-id/v1', $GLOBALS['cal_id_test_rest_routes'][0]['namespace'] );
 		$this->assertSame( '/prefill', $GLOBALS['cal_id_test_rest_routes'][0]['route'] );
 
 		$permission = Cal_ID_Embed_Rest_Prefill::permissions_check();

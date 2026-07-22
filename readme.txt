@@ -1,6 +1,6 @@
-=== Cal ID Embed ===
-Contributors: cal-id
-Tags: calendar, booking, embed, shortcode, gutenberg
+=== Cal ID ===
+Contributors: calid
+Tags: appointment, meeting, scheduling, booking calendar, calid
 Requires at least: 6.3
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -12,7 +12,7 @@ Add Cal ID booking pages to your WordPress site with a block or shortcode.
 
 == Description ==
 
-Cal ID Embed makes it easy to place hosted Cal ID booking pages inside WordPress using:
+Cal ID is a online appointment scheduling tool that handles confirmations, reminders, CRM sync, and payments automatically after every booking.
 
 - a WordPress block
 - a shortcode: `[cal_id_embed]`
@@ -22,12 +22,6 @@ Supported layouts:
 - inline
 - modal
 - floating
-
-What it supports:
-
-- hosted `https://cal.id/...` links only
-- logged-in prefill via REST only
-- UTM tracking support
 
 = External services =
 
@@ -39,15 +33,15 @@ Use of the Cal ID service is subject to Cal ID's [Terms of Use](https://cal.id/t
 
 == Installation ==
 
-1. Install using the WordPress built-in Plugin installer or Upload the plugin files to `/wp-content/plugins/cal-id-embed/`
+1. Install using the WordPress built-in Plugin installer or Upload the plugin files to `/wp-content/plugins/cal-id/`
 2. Activate the plugin in WordPress
-3. Add the `Cal ID Embed` block or place the shortcode in your content
+3. Add the `Cal ID` block or place the shortcode in your content
 
 == Usage ==
 
 Block:
 
-1. Insert `Cal ID Embed`
+1. Insert `Cal ID`
 2. Enter a Cal ID event path such as:
    - `owner/event`
    - `team/owner/event`

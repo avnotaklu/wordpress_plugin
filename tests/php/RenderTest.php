@@ -27,7 +27,7 @@ class RenderTest extends TestCase {
 			'embedHeight' => 720,
 		), 'frontend' );
 
-		$this->assertStringContainsString( 'class="cal-id-embed__container"', $html );
+		$this->assertStringContainsString( 'class="cal-id__container"', $html );
 		$this->assertStringContainsString( 'min-height:720px', $html );
 	}
 
@@ -50,7 +50,7 @@ class RenderTest extends TestCase {
 		), 'frontend' );
 
 		$this->assertStringNotContainsString( '<button', $html );
-		$this->assertStringContainsString( 'class="cal-id-embed__container"', $html );
+		$this->assertStringContainsString( 'class="cal-id__container"', $html );
 	}
 
 	public function test_json_payload_round_trips(): void {
@@ -61,7 +61,7 @@ class RenderTest extends TestCase {
 			'prefillEnabled' => true,
 		), 'frontend' );
 
-		preg_match( '#<script type="application/json" class="cal-id-embed__config">(.*?)</script>#s', $html, $matches );
+		preg_match( '#<script type="application/json" class="cal-id__config">(.*?)</script>#s', $html, $matches );
 		$this->assertNotEmpty( $matches );
 		$config = json_decode( $matches[1], true );
 		$this->assertSame( 'team/owner/event', $config['eventPath'] );
@@ -89,8 +89,8 @@ class RenderTest extends TestCase {
 			'layout' => 'inline',
 		), 'frontend' );
 
-		$this->assertStringContainsString( 'cal-id-embed__config', $shortcode );
-		$this->assertStringContainsString( 'cal-id-embed__config', $rendered );
+		$this->assertStringContainsString( 'cal-id__config', $shortcode );
+		$this->assertStringContainsString( 'cal-id__config', $rendered );
 		$this->assertStringContainsString( '"eventPath":"owner\/event"', $shortcode );
 	}
 }

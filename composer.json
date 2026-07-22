@@ -1,5 +1,5 @@
 {
-  "name": "cal-id/embed",
+  "name": "cal-id/cal-id",
   "description": "WordPress plugin for embedding Cal ID event pages.",
   "type": "wordpress-plugin",
   "require-dev": {

@@ -6,7 +6,7 @@ import {
 } from '../shared/cal-embed';
 
 async function initInstance( root ) {
-	const configScript = root.querySelector( '.cal-id-embed__config' );
+	const configScript = root.querySelector( '.cal-id__config' );
 	if ( ! configScript ) {
 		return;
 	}
@@ -15,7 +15,7 @@ async function initInstance( root ) {
 	try {
 		config = JSON.parse( configScript.textContent || '{}' );
 	} catch ( error ) {
-		root.classList.add( 'cal-id-embed--error' );
+		root.classList.add( 'cal-id--error' );
 		return;
 	}
 
@@ -48,7 +48,7 @@ async function initInstance( root ) {
 	const runtimeConfig = buildRuntimeConfig( config );
 	const calLink = buildCalLink( config.eventPath, config, prefill );
 
-	const container = root.querySelector( '.cal-id-embed__container' );
+	const container = root.querySelector( '.cal-id__container' );
 	if ( config.layout === 'inline' && container ) {
 		container.id = container.id || `${ instanceId }-container`;
 
@@ -60,7 +60,7 @@ async function initInstance( root ) {
 		return;
 	}
 
-	const trigger = root.querySelector( '.cal-id-embed__trigger' );
+	const trigger = root.querySelector( '.cal-id__trigger' );
 	if ( config.layout === 'modal' && trigger ) {
 		trigger.dataset.calLink = calLink;
 		trigger.dataset.calNamespace = instanceId;
@@ -121,10 +121,10 @@ async function getPrefillData( config ) {
 
 document.addEventListener( 'DOMContentLoaded', () => {
 	document
-		.querySelectorAll( '.cal-id-embed[data-instance-id]' )
+		.querySelectorAll( '.cal-id[data-instance-id]' )
 		.forEach( ( root ) => {
 			initInstance( root ).catch( () => {
-				root.classList.add( 'cal-id-embed--error' );
+				root.classList.add( 'cal-id--error' );
 			} );
 		} );
 } );

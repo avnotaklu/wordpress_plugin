@@ -102,7 +102,7 @@ class Cal_ID_Embed_Plugin {
 		if ( isset( $activation_error['php_ok'] ) && ! $activation_error['php_ok'] ) {
 			$messages[] = sprintf(
 				/* translators: %s: minimum PHP version. */
-				esc_html__( 'Cal ID Embed requires PHP %s or later.', 'cal-id-embed' ),
+				esc_html__( 'Cal ID requires PHP %s or later.', 'cal-id' ),
 				esc_html( CAL_ID_EMBED_MINIMUM_PHP )
 			);
 		}
@@ -110,7 +110,7 @@ class Cal_ID_Embed_Plugin {
 		if ( isset( $activation_error['wp_ok'] ) && ! $activation_error['wp_ok'] ) {
 			$messages[] = sprintf(
 				/* translators: %s: minimum WordPress version. */
-				esc_html__( 'Cal ID Embed requires WordPress %s or later.', 'cal-id-embed' ),
+				esc_html__( 'Cal ID requires WordPress %s or later.', 'cal-id' ),
 				esc_html( CAL_ID_EMBED_MINIMUM_WP )
 			);
 		}

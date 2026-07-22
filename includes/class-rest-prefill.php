@@ -27,7 +27,7 @@ class Cal_ID_Embed_Rest_Prefill {
 	 */
 	public static function register_routes() {
 		register_rest_route(
-			'cal-id-embed/v1',
+			'cal-id/v1',
 			'/prefill',
 			array(
 				'methods'  => 'GET',
